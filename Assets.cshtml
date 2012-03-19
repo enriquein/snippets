@@ -1,0 +1,25 @@
+﻿@helper CSS(string cssFile, string media = "screen")
+{
+    var name = cssFile.EndsWith(".css") ? cssFile : cssFile + ".css";
+    var path = string.Format("{0}/css/{1}", Url.SiteUrl("~/Content"), name);
+    <link rel="stylesheet" href="@path" type="text/css" media="@media" /> 
+}
+
+@helper Image(string imageFile, string altText = "")
+{
+    var path = string.Format("{0}/images/{1}", Url.SiteUrl("~/Content"), imageFile);
+    <img src="@path" alt="@altText" />
+}
+
+@helper Script(string scriptFile)
+{
+    var name = scriptFile.EndsWith(".js") ? scriptFile : scriptFile + ".js";
+    var path = string.Format("{0}/js/{1}", Url.SiteUrl("~/Content"), name);
+    <script type="text/javascript" src="@path"></script>
+}
+
+@helper JQueryUI(string theme)
+{
+    var path = string.Format("{0}/css/{1}/jquery-ui-1.8.18.custom.css", Url.SiteUrl("~/Content"), theme);
+    <link rel="stylesheet" href="@path" type="text/css" media="screen" />  
+}
