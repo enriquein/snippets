@@ -1,0 +1,29 @@
+using log4net;
+using log4net.Config;
+using log4net.Layout;
+using log4net.Appender;
+// code
+        PatternLayout layout = new PatternLayout("%date [%level] - %message%newline");
+        FileAppender fileAppenderTrace = new FileAppender();
+        fileAppenderTrace.Layout = layout;
+        fileAppenderTrace.AppendToFile = false;
+
+        // Insert current date and time to file name
+        String dateTimeStr = DateTime.Now.ToString("yyyyddMM_hhmm");
+        fileAppenderTrace.File = string.Format("c:\\{0}{1}", dateTimeStr.Trim() ,".log");
+
+        // Configure filter to accept log messages of any level.
+        log4net.Filter.LevelMatchFilter traceFilter = new
+        log4net.Filter.LevelMatchFilter();
+        traceFilter.LevelToMatch = log4net.Core.Level.All;
+        fileAppenderTrace.ClearFilters();
+        fileAppenderTrace.AddFilter(traceFilter);
+
+        fileAppenderTrace.ImmediateFlush = true;
+        fileAppenderTrace.ActivateOptions();
+
+        // Attach appender into hierarchy
+        log4net.Repository.Hierarchy.Logger root = ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root;
+        root.AddAppender(fileAppenderTrace);
+        root.Repository.Configured = true;
+        logger = log4net.LogManager.GetLogger("root");
